@@ -1,24 +1,23 @@
 import SwiftUI
 
-public struct TabItem: Identifiable {
+public struct BubbleTab {
     public let id: String
     public let icon: String
     public let title: String
     public let selectedColor: Color
-    public let view: AnyView
-    
-    public init(
-        id: String = "\(UUID().uuidString)",
+    let view: AnyView // internal — not part of the public API
+
+    public init<Content: View>(
         icon: String,
         title: String,
         color: Color,
-        view: () -> View
+        id: String? = nil,
+        @ViewBuilder content: () -> Content
     ) {
-        self.id = id
+        self.id = id ?? icon
         self.icon = icon
         self.title = title
         self.selectedColor = color
-        self.view = AnyView(view())
+        self.view = AnyView(content())
     }
 }
-
